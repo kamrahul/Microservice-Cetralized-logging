@@ -1,0 +1,70 @@
+version: '3.5'
+networks:
+    my-network:
+        external: true
+
+services:
+
+    elasticsearch:
+        # image: docker.elastic.co/elasticsearch/elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        environment:
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - discovery.type=single-node
+
+
+
+    fluentbit:
+        build: 
+            context: .
+            dockerfile: Dockerfile_fluentbit
+        ports:
+            - "24224:24224"
+            - "24224:24224/udp"
+        depends_on:
+            - elasticsearch
+
+
+
+
+    service_two:
+        container_name: flask_service_two
+        build: 
+            context: .
+            dockerfile: Dockerfile_appTwo
+        ports:
+            - "9011:5000"
+        environment:
+            - DEVICE_NAME=kin123
+        depends_on:
+            - fluentbit
+        logging:
+            driver: fluentd
+            options:
+                tag: httpd.access
+    
+    # service_one:
+    #     container_name: flask_service_one
+    #     build: 
+    #         context: .
+    #         dockerfile: Dockerfile_appOne
+    #     networks:
+    #         - my-network
+    #     ports:
+    #         - "9010:5000"
+    #     environment:
+    #         - DEVICE_NAME=kin123
+    #     logging:
+    #         driver: "fluentd"
+    #         options:
+    #             tag: httpd.accesstwo
+
+    # elasticsearch:
+    #         image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    #         ports:
+    #             - "9200:9200"
+    #         environment:
+    #             - discovery.type=single-node

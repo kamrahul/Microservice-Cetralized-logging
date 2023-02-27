@@ -1,0 +1,3 @@
+FROM fluent/fluent-bit
+ADD ./fluent-bit/fluent-bit.conf /fluent-bit/etc/
+# EXPOSE 24224
