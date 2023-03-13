@@ -5,6 +5,16 @@ networks:
 
 services:
 
+    grafana:
+        image: grafana/grafana
+        ports:
+            - 3000:3000
+    
+    kibana:
+        image: docker.elastic.co/kibana/kibana:7.17.9
+        ports:
+            - "5601:5601"
+
     elasticsearch:
         # image: docker.elastic.co/elasticsearch/elasticsearch
         image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9

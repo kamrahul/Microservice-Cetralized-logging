@@ -85,3 +85,5 @@ curl --location --request GET 'http://127.0.0.1:9001/simple_module/long_task_end
 # References
 ### https://docs.fluentd.org/v/0.12/container-deployment/docker-compose
 ### https://kevcodez.de/posts/2019-08-10-fluent-bit-docker-logging-driver-elasticsearch/
+
+### https://www.velebit.ai/blog/tech-blog-connecting-elasticsearch-logs-to-grafana-and-kibana/
